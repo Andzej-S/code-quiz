@@ -59,10 +59,43 @@ const displayQuestion = () => {
             });
         }
     }
-}
+};
 
 
-// Event listener for when the user clicks on Start Quiz button
+// Function to listen to clicks on choices and progress the quiz
+const answerListener = () => {
+    choicesEl.addEventListener("click", (event) => {
+        if(event.target.tagName === "INPUT") {
+            let selectedAnswer = event.target.value;
+            let feedbackEl = document.getElementById("feedback");
+            feedbackEl.classList.remove("hide");
+            if(selectedAnswer === quizQuestions[currentQuestion].correctAnswer) {
+                feedbackEl.innerHTML = "Correct!";
+            } else {
+                feedbackEl.innerHTML = "Wrong!"
+            }
+
+            // Makes feedback disappear after 1 second
+            setTimeout(function() {
+                feedbackEl.innerHTML = "";
+            }, 1000);
+
+            // Progresses the quiz after answering the question
+            currentQuestion++;
+            if(currentQuestion < quizQuestions.length) {
+                displayQuestion(currentQuestion);
+            } else {
+                choicesEl.classList.add("hide");
+                questionEl.classList.add("hide");
+                endScreen.classList.remove("hide");
+            }
+        }
+    })
+};
+answerListener();
+
+
+// Event listener for when the user clicks on Start Quiz button that calls all relevant functions
 startQuizBtn.addEventListener("click", () => {
     startTimer();
     hideStart();
