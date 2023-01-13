@@ -6,7 +6,7 @@ const questionWrapperEl = document.getElementById("questions");
 const choicesEl = document.getElementById("choices");
 
 let currentQuestion = 0;
-
+let seconds = 75; // Set starting time
 
 // Function to hide whole start class to make space for the quizQuestions
 const hideStart = () => {
@@ -18,9 +18,6 @@ const hideStart = () => {
 // Function to start a timer
 const startTimer = () => {
 
-    // Set starting time
-    let seconds = 75;
-
     // Get reference to the timer element within HTML
     const timer = document.querySelector(".timer");
     
@@ -31,7 +28,7 @@ const startTimer = () => {
         timer.innerHTML = seconds;
 
         // Check if the timer has reached 0
-        if(seconds <= 0) {
+        if(seconds === 0) {
             clearInterval(intervalId);
             endScreen.classList.remove("hide");
         }
@@ -72,7 +69,20 @@ const answerListener = () => {
             if(selectedAnswer === quizQuestions[currentQuestion].correctAnswer) {
                 feedbackEl.innerHTML = "Correct!";
             } else {
+
+                // Deducts 10 seconds for each wrong answer
                 feedbackEl.innerHTML = "Wrong!"
+                let timer = parseInt(document.querySelector(".timer").innerHTML);
+                if(timer >= 10){
+                    seconds -= 10;
+                }else{
+                    seconds = 0;
+
+                    // Removes remaining questions if time runs out
+                    choicesEl.classList.add("hide");
+                    questionEl.classList.add("hide");
+                    endScreen.classList.remove("hide");
+                }
             }
 
             // Makes feedback disappear after 1 second
