@@ -5,6 +5,12 @@ const questionEl = document.getElementById("question-title");
 const questionWrapperEl = document.getElementById("questions");
 const choicesEl = document.getElementById("choices");
 
+// Create audio elements for correct and incorrect answers
+const correctSound = new Audio("correct.wav");
+correctSound.src = "/assets/sfx/correct.wav";
+const incorrectSound = new Audio("incorrect.wav");
+incorrectSound.src = "/assets/sfx/incorrect.wav";
+
 let currentQuestion = 0;
 let seconds = 75; // Set starting time
 
@@ -68,6 +74,7 @@ const answerListener = () => {
             feedbackEl.classList.remove("hide");
             if(selectedAnswer === quizQuestions[currentQuestion].correctAnswer) {
                 feedbackEl.innerHTML = "Correct!";
+                correctSound.play();
             } else {
 
                 // Deducts 10 seconds for each wrong answer
@@ -83,6 +90,7 @@ const answerListener = () => {
                     questionEl.classList.add("hide");
                     endScreen.classList.remove("hide");
                 }
+                incorrectSound.play();
             }
 
             // Makes feedback disappear after 1 second
