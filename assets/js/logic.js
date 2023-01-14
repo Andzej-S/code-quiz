@@ -6,6 +6,7 @@ const questionWrapperEl = document.getElementById("questions");
 const choicesEl = document.getElementById("choices");
 const scoreEl = document.getElementById("final-score");
 const initialsEl = document.getElementById("initials");
+const submitBtn = document.getElementById("submit");
 
 // Create audio elements for correct and incorrect answers
 const correctSound = new Audio("correct.wav");
@@ -14,10 +15,11 @@ const incorrectSound = new Audio("incorrect.wav");
 incorrectSound.src = "./assets/sfx/incorrect.wav";
 
 let currentQuestion = 0;
-let seconds = 75; // Set starting time
+let seconds = 75; // Set at starting time
 let score = 0; // Initial value of the score
 let maxCharacters = 3 // Max characters for initials after completing the quiz
 let intervalId;
+
 
 // Function to hide whole start class to make space for the quizQuestions
 const hideStart = () => {
@@ -140,4 +142,11 @@ initialsEl.addEventListener("input", function() {
       this.value = this.value.slice(0, maxCharacters);
     }
     this.value = this.value.replace(/[^a-zA-Z]/g, "");
+});
+
+
+// Event listener for Submit button
+submitBtn.addEventListener("click", () => {
+    endScreen.classList.add("hide");
+    window.location.href = "highscores.html";
 });
