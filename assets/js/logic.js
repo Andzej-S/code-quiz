@@ -5,6 +5,7 @@ const questionEl = document.getElementById("question-title");
 const questionWrapperEl = document.getElementById("questions");
 const choicesEl = document.getElementById("choices");
 const scoreEl = document.getElementById("final-score");
+const initialsEl = document.getElementById("initials");
 
 // Create audio elements for correct and incorrect answers
 const correctSound = new Audio("correct.wav");
@@ -14,7 +15,8 @@ incorrectSound.src = "./assets/sfx/incorrect.wav";
 
 let currentQuestion = 0;
 let seconds = 75; // Set starting time
-let score = 0;
+let score = 0; // Initial value of the score
+let maxCharacters = 3 // Max characters for initials after completing the quiz
 let intervalId;
 
 // Function to hide whole start class to make space for the quizQuestions
@@ -28,9 +30,7 @@ const hideStart = () => {
 const scoreCalc = () => {
     score = seconds - intervalId;
     scoreEl.innerHTML = score;
-    console.log(score);
 };
-
 
 
 // Function to start a timer
@@ -131,4 +131,13 @@ startQuizBtn.addEventListener("click", () => {
     startTimer();
     hideStart();
     displayQuestion();
+});
+
+
+// Function that limits the amount of character input and prevents symbols, number and non-English letters
+initialsEl.addEventListener("input", function() {
+    if (this.value.length > maxCharacters) {
+      this.value = this.value.slice(0, maxCharacters);
+    }
+    this.value = this.value.replace(/[^a-zA-Z]/g, "");
 });
