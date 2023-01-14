@@ -4,21 +4,33 @@ const endScreen = document.getElementById("end-screen");
 const questionEl = document.getElementById("question-title");
 const questionWrapperEl = document.getElementById("questions");
 const choicesEl = document.getElementById("choices");
+const scoreEl = document.getElementById("final-score");
 
 // Create audio elements for correct and incorrect answers
 const correctSound = new Audio("correct.wav");
-correctSound.src = "/assets/sfx/correct.wav";
+correctSound.src = "./assets/sfx/correct.wav";
 const incorrectSound = new Audio("incorrect.wav");
-incorrectSound.src = "/assets/sfx/incorrect.wav";
+incorrectSound.src = "./assets/sfx/incorrect.wav";
 
 let currentQuestion = 0;
 let seconds = 75; // Set starting time
+let score = 0;
+let intervalId;
 
 // Function to hide whole start class to make space for the quizQuestions
 const hideStart = () => {
     startScreen.classList.remove("start")
     startScreen.classList.add("hide");
 };
+
+
+// Function to calculate and display the score
+const scoreCalc = () => {
+    score = seconds - intervalId;
+    scoreEl.innerHTML = score;
+    console.log(score);
+};
+
 
 
 // Function to start a timer
@@ -33,16 +45,17 @@ const startTimer = () => {
         //Update the timer element
         timer.innerHTML = seconds;
 
-        // Check if the timer has reached 0
-        if(seconds === 0) {
+        // Check if the timer has reached 0 OR if end-screen reached and stop the count
+        if(seconds === 0 || currentQuestion === quizQuestions.length) {
             clearInterval(intervalId);
             endScreen.classList.remove("hide");
+            scoreCalc();
         }
         seconds--;
     }
 
     // Update the timer every 1000ms (1s)
-    const intervalId = setInterval(updateTimer, 1000);
+    intervalId = setInterval(updateTimer, 1000);
 };
 
 
