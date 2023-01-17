@@ -7,6 +7,7 @@ const choicesEl = document.getElementById("choices");
 const scoreEl = document.getElementById("final-score");
 const initialsEl = document.getElementById("initials");
 const submitBtn = document.getElementById("submit");
+const timer = document.querySelector("#time");
 
 // Create audio elements for correct and incorrect answers
 const correctSound = new Audio("correct.wav");
@@ -30,22 +31,20 @@ const hideStart = () => {
 
 // Function to calculate and display the score
 const scoreCalc = () => {
-    score = seconds - intervalId;
-    scoreEl.innerHTML = score;
+    scoreEl.innerHTML = seconds;
 };
 
 
 // Function to start a timer
 const startTimer = () => {
 
-    // Get reference to the timer element within HTML
-    const timer = document.querySelector(".timer");
+  
     
     // Create a function to update the timer
     const updateTimer = () => {
 
         //Update the timer element
-        timer.innerHTML = seconds;
+        timer.textContent = seconds;
 
         // Check if the timer has reached 0 OR if end-screen reached and stop the count
         if(seconds === 0 || currentQuestion === quizQuestions.length) {
@@ -94,8 +93,8 @@ const answerListener = () => {
 
                 // Deducts 10 seconds for each wrong answer
                 feedbackEl.innerHTML = "Wrong!"
-                let timer = parseInt(document.querySelector(".timer").innerHTML);
-                if(timer >= 10){
+                // let timer = parseInt(document.querySelector(".timer").innerHTML);
+                if(seconds >= 10){
                     seconds -= 10;
                 }else{
                     seconds = 0;
@@ -131,6 +130,7 @@ answerListener();
 // Event listener for when the user clicks on Start Quiz button that calls all relevant functions
 startQuizBtn.addEventListener("click", () => {
     startTimer();
+    timer.textContent = seconds;
     hideStart();
     displayQuestion();
 });
@@ -141,6 +141,7 @@ initialsEl.addEventListener("input", function() {
     if (this.value.length > maxCharacters) {
       this.value = this.value.slice(0, maxCharacters);
     }
+    // Replace any non-alphabetic characters with an empty string
     this.value = this.value.replace(/[^a-zA-Z]/g, "");
 });
 
@@ -148,5 +149,13 @@ initialsEl.addEventListener("input", function() {
 // Event listener for Submit button
 submitBtn.addEventListener("click", () => {
     endScreen.classList.add("hide");
-    window.location.href = "highscores.html";
+    window.location.href = "highscores.html"
+    let userInitials = initialsEl.value;
+    let allHighscores = JSON.parse(localStorage.getItem("allHighscores")) || [];
+    let userScore = {
+        initials: userInitials,
+        score: seconds
+    };
+    allHighscores.push(userScore);
+    localStorage.setItem("allHighscores", JSON.stringify(allHighscores));
 });
