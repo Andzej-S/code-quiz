@@ -1,4 +1,5 @@
 const highscoreList = document.getElementById("highscores");
+const clearBtn = document.getElementById("clear");
 
 if(highscoreList){
     const displayHighscores = () => {
@@ -14,3 +15,10 @@ if(highscoreList){
     }
     displayHighscores();
 }
+
+
+clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("allHighscores");
+    highscoreList.innerHTML = "";
+    displayHighscores();
+});
