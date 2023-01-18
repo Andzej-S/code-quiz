@@ -72,7 +72,7 @@ const displayQuestion = () => {
 
             // Shows all the choices for a particular question
             quizQuestions[i].choices.map((choice, index) => {
-                choicesEl.innerHTML += `<input type="radio" name="answer" value="${choice}"> ${index + 1}. ${choice}<br>`;
+                choicesEl.innerHTML += `<button class="btn" data-value="${choice}"> ${index + 1}. ${choice} </button><br>`;
             });
         }
     }
@@ -82,7 +82,7 @@ const displayQuestion = () => {
 // Function to listen to clicks on choices and progress the quiz
 const answerListener = () => {
     choicesEl.addEventListener("click", (event) => {
-        if(event.target.tagName === "INPUT") {
+        if(event.target.tagName === "BUTTON") {
             let selectedAnswer = event.target.value;
             let feedbackEl = document.getElementById("feedback");
             feedbackEl.classList.remove("hide");
