@@ -49,12 +49,13 @@ const startTimer = () => {
         // Check if the timer has reached 0 OR if end-screen reached and stop the count
         if(seconds === 0 || currentQuestion === quizQuestions.length) {
             clearInterval(intervalId);
+            choicesEl.classList.add("hide");
+            questionEl.classList.add("hide");
             endScreen.classList.remove("hide");
             scoreCalc();
         }
         seconds--;
     }
-
     // Update the timer every 1000ms (1s)
     intervalId = setInterval(updateTimer, 1000);
 };
