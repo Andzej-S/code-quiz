@@ -42,7 +42,7 @@ const startTimer = () => {
     
     // Create a function to update the timer
     const updateTimer = () => {
-
+        seconds--;
         //Update the timer element
         timer.textContent = seconds;
 
@@ -54,7 +54,6 @@ const startTimer = () => {
             endScreen.classList.remove("hide");
             scoreCalc();
         }
-        seconds--;
     }
     // Update the timer every 1000ms (1s)
     intervalId = setInterval(updateTimer, 1000);
