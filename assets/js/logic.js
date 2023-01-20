@@ -38,22 +38,22 @@ const scoreCalc = () => {
 // Function to start a timer
 const startTimer = () => {
 
-  
-    
     // Create a function to update the timer
     const updateTimer = () => {
-        seconds--;
-        //Update the timer element
-        timer.textContent = seconds;
-
-        // Check if the timer has reached 0 OR if end-screen reached and stop the count
-        if(seconds === 0 || currentQuestion === quizQuestions.length) {
+        if(seconds <= 0 || currentQuestion === quizQuestions.length) {
             clearInterval(intervalId);
             choicesEl.classList.add("hide");
             questionEl.classList.add("hide");
             endScreen.classList.remove("hide");
+            seconds = 0;
             scoreCalc();
-        }
+        } else 
+            seconds--;
+        //Update the timer element
+        timer.textContent = seconds;
+
+        // Check if the timer has reached 0 OR if end-screen reached and stop the count
+        
     }
     // Update the timer every 1000ms (1s)
     intervalId = setInterval(updateTimer, 1000);
@@ -98,7 +98,6 @@ const answerListener = () => {
                     seconds -= 10;
                 }else{
                     seconds = 0;
-
                     // Removes remaining questions if time runs out
                     choicesEl.classList.add("hide");
                     questionEl.classList.add("hide");
@@ -129,10 +128,10 @@ answerListener();
 
 // Event listener for when the user clicks on Start Quiz button that calls all relevant functions
 startQuizBtn.addEventListener("click", () => {
+    displayQuestion();
     startTimer();
     timer.textContent = seconds;
     hideStart();
-    displayQuestion();
 });
 
 
